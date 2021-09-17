@@ -5,17 +5,19 @@ const Users = require("../../users/users-model.js");
 const restricted = (req, res, next) => {
   const token = req.headers.authorization
   if(!token) {
-   return next({ status: 401, message: "token required"})
+  res.json({ status: 401, message: "token required"})
+   next()
   }
 
   jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-    if(err) {
-      next({ status: 401, message: "token invalid"})
-    } else {
+    if(err)
+      res.json({ 
+        status: 401, message: "token invalid"
+      })
       req.decodedToken = decodedToken
       next()
     }
-  })
+  )
 }
 
   const checkIfUsernameExists = async (req, res, next) => {
