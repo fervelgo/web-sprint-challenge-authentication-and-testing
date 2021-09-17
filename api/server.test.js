@@ -47,16 +47,19 @@ describe('[POST] api/auth/login', () => {
 //Jokes endpoint tests
 
 describe('[GET] api/jokes', () => {
-  test('responds with the jokes object', async () => {
+  test('responds with 200 status', async () => {
     const res = await request(server)
       .post('/api/jokes')
       .send({ username: 'Locuaz', password: 'Locua$1234' })
     expect(res.status).toBe(200)
   }, 600)
-  // test('responds with a 401 if token invalid', async () => {
-  //   const res = await request(server)
-  //     .post('/api/jokes')
-  //     .send({ username: '', password: '' })
-  //     expect(res.status).toBe(200)
-  // }, 600)
+  test('responds with joke object', async () => {
+    const res = await request(server)
+      .post('/api/jokes')
+     const token = res.headers.authorization
+     console.log(token)
+      request(server).post('/api/jokes').set('Authorization', token)
+    expect(res.body).toContain({ joke: "I'm tired of following my dreams. I'm just going to ask them where they are going and meet up with them later."})
+  }, 600)
+
 })
